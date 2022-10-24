@@ -56,7 +56,7 @@ six==1.16.0
 sklearn==0.0
 soupsieve==2.3.2.post1
 threadpoolctl==3.1.0
-twint==2.1.20
+git+https://github.com/twintproject/twint.git@origin/master#egg=twint
 urllib3==1.26.12
 uvicorn==0.19.0
 Werkzeug==2.2.2
