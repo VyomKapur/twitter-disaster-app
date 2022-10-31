@@ -24,13 +24,16 @@
         </div>
     </div>
     </nav>
-    <form action="/get-data" method="POST">
-    <div class="mb-3">
-        <label for="lmt" class="form-label">Enter number of tweets to be generated </label>
-        <input type="text" name="limit" class="form-control" id="lmt" aria-describedby="limit">
-        <div id="emailHelp" class="form-text">Enter values between 0 and 10,000.</div>
+    <div class="container">
+        <form action="/get-data" method="POST">
+        <div class="mb-3">
+            <label for="lmt" class="form-label">Enter number of tweets to be generated </label>
+            <input type="text" name="limit" class="form-control" id="lmt" aria-describedby="limit">
+            <div id="emailHelp" class="form-text">Enter values between 0 and 10,000.</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Generate</button>
+        </form>
     </div>
-    <button type="submit" class="btn btn-primary">Generate</button>
-    </form>
+    
 </body>
 </html>
