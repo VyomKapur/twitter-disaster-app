@@ -1,7 +1,6 @@
 import pandas as pd
 import pickle
 import re
-from wordcloud import WordCloud
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 
