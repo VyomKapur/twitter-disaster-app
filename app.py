@@ -4,12 +4,13 @@ import numpy as np
 import re
 import twint
 import nest_asyncio
+import os
 
-from flask import Flask, redirect, url_for, render_template, request, flash
+from flask import Flask, redirect, session, url_for, render_template, request, flash, session
 
 nest_asyncio.apply()
 app = Flask(__name__)
-
+app.secret_key = '\xf0?a\x9a\\\xff\xd4;\x0c\xcbHi'
 model = pickle.load(open('./models/model.pkl', 'rb'))
 vec = pickle.load(open('./models/vec.pkl', 'rb'))
 
@@ -35,15 +36,17 @@ def contactpage():
 
 @app.route('/get-data', methods=['POST', 'GET'])
 async def get_data():
+    os.remove("./datasets/dataset1.json")
     if request.method == 'POST':
         limit = request.form['limit']
         c = twint.Config()
         c.Search = "disaster"
         c.Store_json = True
-        c.Output = "./datasets/dataset.json"
-        c.Limit = limit
+        c.Output = "./datasets/dataset1.json"
+        c.Limit = int(limit)
+        session['limit'] = limit
         twint.run.Search(c)
-        data = pd.read_json('./datasets/dataset.json', lines=True)
+        data = pd.read_json('./datasets/dataset1.json', lines=True, nrows=int(limit)+2)
     return clean_data(data)
 
 def clean_data(data):
@@ -59,7 +62,7 @@ def predict(data, orginal_data):
     data = np.array(data)
     x = vec.transform(data)
     output = model.predict(x)
-    return render_template('result.html', pred_text = orginal_data, pred = output)
+    return render_template('result.html', pred_text = orginal_data, pred = output, limit = session['limit'])
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -24,8 +24,9 @@
         </div>
     </div>
     </nav>
+    <h1>Limit is: {{ limit }}</h1>
+    <div class="container">
     {% for i in range(pred_text|length) %}
-    
     <div class="card">
     <div class="card-header">
         {% if pred[i] == 1 %}
@@ -39,5 +40,6 @@
     </div>
     </div>
     {% endfor %}
+    </div>
 </body>
 </html>
