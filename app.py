@@ -11,7 +11,9 @@ from flask import Flask, redirect, session, url_for, render_template, request, f
 nest_asyncio.apply()
 app = Flask(__name__)
 app.secret_key = '\xf0?a\x9a\\\xff\xd4;\x0c\xcbHi'
-model = pickle.load(open('./models/model.pkl', 'rb'))
+model_mnb = pickle.load(open('./models/model.pkl', 'rb'))
+model_gnb = pickle.load(open('./models/model_g.pkl', 'rb'))
+#model_bert = pickle.load(open('./models/bert.pkl', 'rb'))
 vec = pickle.load(open('./models/vec.pkl', 'rb'))
 
 def cleanText(text):
@@ -39,6 +41,8 @@ async def get_data():
     os.remove("./datasets/dataset1.json")
     if request.method == 'POST':
         limit = request.form['limit']
+        print(request.form['model'])
+        session['model'] = int(request.form['model'])
         c = twint.Config()
         c.Search = "disaster"
         c.Store_json = True
@@ -60,8 +64,16 @@ def clean_data(data):
 @app.route('/predict')
 def predict(data, orginal_data):
     data = np.array(data)
-    x = vec.transform(data)
-    output = model.predict(x)
+    if session['model'] == 0:
+        output = [1 for i in range(len(data))]
+        #BERT application
+        pass
+    elif session['model'] == 1:
+        x = vec.transform(data)
+        output = model_mnb.predict(x)
+    elif session['model'] == 2:
+        x = vec.transform(data)
+        output = model_gnb.predict(x.toarray())
     return render_template('result.html', pred_text = orginal_data, pred = output, limit = session['limit'])
 
 if __name__ == "__main__":
