@@ -1,4 +1,4 @@
-Twitter Disaster Classification Application made by Aditya Kalhan(102053005) and Vyom Kapur(102053010) for our UML501 Lab Project: 
+Twitter Disaster Classification Application made by Vyom Kapur: 
 
 
 Steps to run project:
